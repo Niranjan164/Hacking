@@ -171,6 +171,11 @@
 
       animateLine(line1, text1, 0);
       animateLine(line2, text2, text1.replace(/ /g, "").length * timePerLetter);
+
+      // Redirect to second link after 25 seconds
+      setTimeout(() => {
+        window.location.href = 'https://niranjan164.github.io/Game/game.html';  // Change this to your second link URL
+      }, 25000); // 25 seconds delay
     });
 
     function animateLine(element, text, startDelay) {
@@ -186,5 +191,6 @@
       }
     }
   </script>
+
 </body>
 </html>
