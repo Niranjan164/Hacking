@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HACKING SIMULATOR</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: black;
+      font-family: monospace;
+      color: lime;
+      text-transform: uppercase;
+      overflow: hidden;
+    }
+    .center-box {
+      border: 2px solid cyan;
+      padding: 40px;
+      max-width: 400px;
+      margin: 80px auto;
+      text-align: center;
+      box-shadow: 0 0 20px cyan;
+    }
+    h1, h2 {
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    h1 {
+      color: lime;
+    }
+    input {
+      display: block;
+      margin: 15px auto;
+      padding: 10px;
+      width: 80%;
+      background: black;
+      border: 2px solid cyan;
+      color: gold;
+      font-weight: bold;
+      text-align: center;
+    }
+    input:hover {
+      border-color: lime;
+      box-shadow: 0 0 10px lime;
+    }
+    button {
+      background: black;
+      color: cyan;
+      padding: 10px 20px;
+      margin: 10px;
+      border: 2px solid cyan;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: cyan;
+      color: black;
+      box-shadow: 0 0 10px cyan;
+    }
+    #intro, #register, #login, #task, #result {
+      display: none;
+    }
+    #intro h1 {
+      color: red;
+      font-size: 2em;
+    }
+  </style>
+</head>
+<body><audio id="clickSound" src="https://github.com/Niranjan164/COMPILER/raw/main/click-151673_073339.mp3"></audio>
+
+<div id="intro" class="center-box">
+  <h1>NIRANJAN CREATIONS</h1>
+</div><div id="register" class="center-box">
+  <h1>WELCOME TO HACKING</h1>
+  <h2>REGISTER</h2>
+  <input type="text" id="regName" placeholder="ENTER NAME" />
+  <input type="password" id="regPass" placeholder="ENTER PASSWORD" />
+  <button onclick="playClick(); register()">REGISTER</button>
+</div><div id="login" class="center-box">
+  <h1>WELCOME TO HACKING</h1>
+  <h2>LOGIN</h2>
+  <input type="text" id="loginName" placeholder="ENTER NAME" />
+  <input type="password" id="loginPass" placeholder="ENTER PASSWORD" />
+  <button onclick="playClick(); login()">LOGIN</button>
+</div><div id="task" class="center-box">
+  <h1>HACK</h1>
+  <input type="password" id="hackPass" placeholder="ENTER PASSWORD" />
+  <button onclick="playClick(); checkHack()">ENTER</button>
+</div><div id="result" class="center-box">
+  <h1 id="resultText">RESULT</h1>
+</div><script>
+  const clickSound = document.getElementById("clickSound");
+  const inputs = document.querySelectorAll("input");
+
+  function playClick() {
+    clickSound.currentTime = 0;
+    clickSound.play();
+  }
+
+  // Sound for keypress typing
+  inputs.forEach(input => {
+    input.addEventListener('input', () => {
+      playClick();
+    });
+  });
+
+  function show(id) {
+    document.querySelectorAll("div").forEach(div => div.style.display = "none");
+    document.getElementById(id).style.display = "block";
+  }
+
+  function register() {
+    const name = document.getElementById("regName").value;
+    const pass = document.getElementById("regPass").value;
+    if (name && pass) {
+      localStorage.setItem("hacker", JSON.stringify({ name, pass }));
+      show("login");
+    } else {
+      alert("ENTER DETAILS");
+    }
+  }
+
+  function login() {
+    const name = document.getElementById("loginName").value;
+    const pass = document.getElementById("loginPass").value;
+    const stored = JSON.parse(localStorage.getItem("hacker"));
+    if (stored && name === stored.name && pass === stored.pass) {
+      show("task");
+    } else {
+      alert("INVALID LOGIN");
+    }
+  }
+
+  function checkHack() {
+    const password = document.getElementById("hackPass").value;
+    if (password === "KNI") {
+      document.getElementById("resultText").innerText = "YOU HAVE BRIGHT FUTURE, CONTACT NIRANJAN";
+      show("result");
+    } else {
+      document.getElementById("resultText").innerText = "YOU ARE NOT ELIGIBLE TO LEARN HACKING";
+      show("result");
+      setTimeout(() => {
+        document.getElementById("hackPass").value = "";
+        show("task");
+      }, 3000);
+    }
+  }
+
+  // First Intro Timer
+  window.onload = () => {
+    show("intro");
+    setTimeout(() => {
+      const stored = localStorage.getItem("hacker");
+      if (!stored) {
+        show("register");
+      } else {
+        show("login");
+      }
+    }, 2000);
+  }
+</script></body>
+</html>
